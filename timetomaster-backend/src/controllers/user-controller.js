@@ -44,9 +44,11 @@ export const validateUser = async (request, response) => {
     const UserInfo = request.body;
     console.log("user controller validate", UserInfo);
     const user = await userService.validate(UserInfo);
+    console.log("user", user);
+    console.log("response", response);
     setResponse(user, response);
   } catch (error) {
-    setErrorResponse(500, error, response);
+    setErrorResponse(401, error, response);
   }
 };
 

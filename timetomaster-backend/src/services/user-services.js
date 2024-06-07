@@ -1,5 +1,8 @@
 import User from "../models/users.js";
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+const SECRET_KEY = 'your_secret_key'; 
 
 export const search = async (params) => {
   const users = User.find(params).select("-password").exec();
@@ -17,16 +20,23 @@ export const validate = async ({ email, password }) => {
     // Find user by email
     const user = await User.findOne({ email }).exec();
     if (!user) {
-      throw new Error('User not found');
+      // throw new Error('User not found');
+      return null;
     }
 
     // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw new Error('Invalid credentials');
+      // throw new Error('Invalid credentials');
+      return null;
     }
 
-    return user;
+    // const token = jwt.sign({ id: user._id, email: user.email }, SECRET_KEY, {
+    //   expiresIn: '1h',
+    // });
+    // return  { user, token };
+
+    return  user;
   } catch (error) {
     throw new Error(error.message);
   }
