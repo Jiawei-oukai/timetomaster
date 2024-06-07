@@ -1,33 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './login.module.scss';
-import SignUpForm from './components/signUpForm'; // 导入SignUpForm组件
+import SignUpForm from './components/signUpForm'; // Import SignUpForm component
 import { useAuth } from '@/app/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import MainPage from '../MainPage/mainPage';
 
 const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showSignUp, setShowSignUp] = useState<boolean>(false);
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+  const [isEmailTouched, setIsEmailTouched] = useState<boolean>(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Check email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsEmailValid(emailRegex.test(email));
+  }, [email]);
+
   const handleLogin = () => {
-    // 处理登录逻辑
-    console.log('Sign in:', { username, password });
-    if (username && password) {
+    // Handle login logic
+    console.log('Sign in:', { username: email, password });
+    if (email && password && isEmailValid) {
       login();
       navigate('/home');
     }
   };
 
   const handleRegister = () => {
-    // 显示注册表单
+    // Show sign-up form
     setShowSignUp(true);
   };
 
   const handleCloseSignUp = () => {
-    // 关闭注册表单
+    // Close sign-up form
     setShowSignUp(false);
   };
 
@@ -35,18 +42,24 @@ const LoginPage: React.FC = () => {
     <div className={styles.pageContainer}>
       <div className={styles.loginContainer}>
         {showSignUp ? (
-          <SignUpForm onClose={handleCloseSignUp} /> // 传递关闭注册表单的函数
+          <SignUpForm onClose={handleCloseSignUp} /> // Pass close sign-up form function
         ) : (
           <div className={styles.loginForm}>
             <div className={styles.inputContainer}>
-              <label htmlFor="username" className={styles.label}>User Name:</label>
+              <label htmlFor="email" className={styles.label}>Email:</label>
               <input
                 type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setIsEmailTouched(true);
+                }}
                 className={styles.input}
               />
+              {!isEmailValid && isEmailTouched && (
+                <div className={styles.error}>Invalid email format!</div>
+              )}
             </div>
             <div className={styles.inputContainer}>
               <label htmlFor="password" className={styles.label}>Password:</label>
@@ -58,8 +71,19 @@ const LoginPage: React.FC = () => {
                 className={styles.input}
               />
             </div>
-            <button onClick={handleLogin} className={styles.button}>Sign In</button>
-            <button onClick={handleRegister} className={`${styles.button} ${styles.registerButton}`}>Sign Up</button>
+            <button
+              onClick={handleLogin}
+              className={styles.button}
+              disabled={!email || !password || !isEmailValid}
+            >
+              Sign In
+            </button>
+            <button
+              onClick={handleRegister}
+              className={`${styles.button} ${styles.registerButton}`}
+            >
+              Sign Up
+            </button>
           </div>
         )}
       </div>
