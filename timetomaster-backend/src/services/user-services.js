@@ -1,4 +1,5 @@
 import User from "../models/users.js";
+import bcrypt from 'bcrypt';
 
 export const search = async (params) => {
   const users = User.find(params).select("-password").exec();
@@ -11,10 +12,41 @@ export const save = async (newUser) => {
   return user.save();
 };
 
+export const validate = async ({ email, password }) => {
+  try {
+    // Find user by email
+    const user = await User.findOne({ email }).exec();
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      throw new Error('Invalid credentials');
+    }
+
+    return user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 //get user by ID
 export const getById = async (id) => {
   const user = User.findById(id).exec();
   return user;
+};
+
+//get user by email
+export const getByEmail = async (email) => {
+  try {
+    // Use Mongoose findOne method to find user by email
+    const user = await User.findOne({ email });
+    return user;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
 //update user

@@ -17,14 +17,14 @@ export const index = async (requst, response) => {
 };
 
 //controller function to create user
-export const post = async (request, response) => {
+export const createNewUser = async (request, response) => {
   try {
     const newUser = request.body;
     newUser.password = await hashFunction(newUser.password);
     const user = await userService.save(newUser);
     setResponse(user, response);
   } catch (error) {
-    setErrorResponse(500, error, response);
+    setErrorResponse(500, error, "response");
   }
 };
 
@@ -33,6 +33,28 @@ export const getById = async (request, response) => {
   try {
     const id = request.params.id;
     const user = await userService.getById(id);
+    setResponse(user, response);
+  } catch (error) {
+    setErrorResponse(500, error, response);
+  }
+};
+
+export const validateUser = async (request, response) => {
+  try {
+    const UserInfo = request.body;
+    console.log("user controller validate", UserInfo);
+    const user = await userService.validate(UserInfo);
+    setResponse(user, response);
+  } catch (error) {
+    setErrorResponse(500, error, response);
+  }
+};
+
+//controller function to get user by Email
+export const getByEmail = async (request, response) => {
+  try {
+    const email = request.params.email;
+    const user = await userService.getByEmail(email);
     setResponse(user, response);
   } catch (error) {
     setErrorResponse(500, error, response);
@@ -64,28 +86,30 @@ export const deleteReminder = async (request, response) => {
 
 // function to authenticate user
 
-export const authUser = async (request, response) => {
-  try {
-    const authRequest = request.body;
-    const userName = { userName: authRequest.userName };
-    let user = await userService.getByUserName(userName);
-    if (!user) return response.status(400).send("Invalid username or password");
-    const validPassword = await validatePassword(
-      authRequest.password,
-      user.password
-    );
-    if (!validPassword)
-      return response.status(400).send("Invalid username or password");
-    const tokenObj = {
-      _id: user._id,
-      isAdmin: user.isAdmin,
-      userName: user.userName,
-    };
-    const token = await signjwt(tokenObj, "jwtPrivateKey");
-    // const token = await signjwt(tokenObj, config.get('jwtPrivateKey'));
-    setResponse(token, response);
-  } catch (error) {
-    setErrorResponse(500, error, response);
-  }
-};
+// export const authUser = async (request, response) => {
+//   try {
+//     const authRequest = request.body;
+//     const userName = { userName: authRequest.userName };
+//     let user = await userService.getByUserName(userName);
+//     if (!user) return response.status(400).send("Invalid username or password");
+//     const validPassword = await validatePassword(
+//       authRequest.password,
+//       user.password
+//     );
+//     if (!validPassword)
+//       return response.status(400).send("Invalid username or password");
+//     const tokenObj = {
+//       _id: user._id,
+//       isAdmin: user.isAdmin,
+//       userName: user.userName,
+//     };
+//     const token = await signjwt(tokenObj, "jwtPrivateKey");
+//     // const token = await signjwt(tokenObj, config.get('jwtPrivateKey'));
+//     setResponse(token, response);
+//   } catch (error) {
+//     setErrorResponse(500, error, response);
+//   }
+// };
+
+
 
