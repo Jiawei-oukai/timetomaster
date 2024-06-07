@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import styles from './login.module.scss';
 import SignUpForm from './components/signUpForm'; // 导入SignUpForm组件
+import { useAuth } from '@/app/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import MainPage from '../MainPage/mainPage';
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [showSignUp, setShowSignUp] = useState<boolean>(false);
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     // 处理登录逻辑
     console.log('Sign in:', { username, password });
+    if (username && password) {
+      login();
+      navigate('/home');
+    }
   };
 
   const handleRegister = () => {
