@@ -6,9 +6,9 @@ import React, { useState, useEffect } from 'react';
 import { createAchievement, getAllAchievement, searchAchievement, updateAchievement, deleteAchievement } from '../../services/achievement-service';
 import { getAllGoal, createGoal, updateGoal, deleteGoal } from '../../services/goal-service';
 
-import AchievementCard from './../JlHome/components/achiev-card/achievement-card';
+import AchievementCard from './components/achiev-card/achievement-card';
 
-import Header from '../ShiqiHomePage/components/header/header';
+import Header from '../MainPage/components/header/header';
 import Achievement from '@/models/achievement';
 import Goal from '@/models/goal';
 

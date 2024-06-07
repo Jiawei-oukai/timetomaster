@@ -1,13 +1,13 @@
 "use client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
-import LoginIdentifier from "@/components/felixHome/component/login/identifier";
-import LoginForm from "@/components/felixHome/component/login/login";
-import SignupIdentifier from "@/components/felixHome/component/register/identifier";
-import CreaterCustomerForm from "@/components/felixHome/component/register/register";
-import GoalPage from "../components/ShiqiHomePage/mainPage"
-import StatisticsPage from "../components/ShiqiHomePage/statisticsPage"
-import GoalsPage from "../components/ShiqiHomePage/goalsPage"
+import LoginIdentifier from "@/components/Draft/component/login/identifier";
+import LoginForm from "@/components/Draft/component/login/login";
+import SignupIdentifier from "@/components/Draft/component/register/identifier";
+import CreaterCustomerForm from "@/components/Draft/component/register/register";
+import GoalPage from "../components/MainPage/mainPage"
+import StatisticsPage from "../components/MainPage/statisticsPage"
+import GoalsPage from "../components/MainPage/goalsPage"
 
 export default function Home() {
   return (

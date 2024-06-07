@@ -3,10 +3,10 @@ import React, { useState, useEffect } from "react";
 
 import { getAllGoal , updateGoal, deleteGoal} from "@/services/goal-service";
 import Header from "../header/header";
-import goalCard from "@/components/ShiqiHomePage/components/goalCard/goalCard2";
-import Calendar from "@/components/ShiqiHomePage/components/calendar/calendar";
-import CreateGoalModal from "@/components/ShiqiHomePage/components/goalModal/createGoalModal";
-import GoalDetail from "@/components/ShiqiHomePage/components/goalDetail/goalDetail";
+import goalCard from "@/components/MainPage/components/goalCard/goalCard2";
+import Calendar from "@/components/MainPage/components/calendar/calendar";
+import CreateGoalModal from "@/components/MainPage/components/goalModal/createGoalModal";
+import GoalDetail from "@/components/MainPage/components/goalDetail/goalDetail";
 import Goal from "@/models/goal";
 
 export default function LandingPage() {
