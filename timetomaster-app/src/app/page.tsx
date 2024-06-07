@@ -8,12 +8,12 @@ import CreaterCustomerForm from "@/components/Draft/component/register/register"
 import GoalPage from "../components/MainPage/mainPage"
 import StatisticsPage from "../components/MainPage/statisticsPage"
 import GoalsPage from "../components/MainPage/goalsPage"
-
+import LoginPage from "../components/LoginPage/login"
 export default function Home() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<GoalPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<GoalPage />} />
         <Route path="/statistics" element={<StatisticsPage />} />
         <Route path="/goals" element={<GoalsPage />} />
