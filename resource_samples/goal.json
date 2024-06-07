@@ -1,0 +1,14 @@
+{
+    "id": "1",
+    "userId": "b40hie920adv904dsa9s0",
+    "name": "Learn Spanish",
+    "description": "I want to become fluent in Spanish",
+    "totalHours": 100,
+    "investedHours": 20,
+    "progress": 0.2,
+    "status": "Unfinished",
+    "completionDate": null,
+    "expectedCompletionDate": "2023-02-01",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-01-01T00:00:00Z"
+}

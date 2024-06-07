@@ -1,0 +1,48 @@
+Note: The resource paths are relative to the base URL of the API. 
+For example, if the base URL is https://localhost8080, 
+the complete URL for creating a new user account would be https://localhost8080/Users
+
+1. Users Resource:
+
+POST /users: Create a new user account
+GET /users/{userId}: Retrieve user information by ID
+PUT /users/{userId}: Update user account information by ID (Including upgrade account to Pro)
+DELETE /users/{userId}: Delete user account by ID
+
+2. Login/Logout Resource:
+
+POST /login: User login
+POST /logout: User logout
+
+3. Achievements Resource:
+GET /users/{userId}/achievements: Retrieve all the achievements of the user
+POST /users/{userId}/achievements : Create an achievement for a user
+GET /users/{userId}/achievements/{achievementId}: Retrieve an Achievement by achievementId
+PUT /users/{userId}/achievements/{achievementId}: Update an achievement by achievementId
+DELETE /users/{userId}/achievements/{achievementId}: Delete an achievement by achievementId
+POST /users/{userId}/achievements/{achievementId}/share: Share achievements on social media
+
+4. Goals Resource:
+POST /users/{userId}/goals: Create a new goal for a user
+GET /users/{userId}/goals/{goalId}: Retrieve a goal by ID
+PUT /users/{userId}/goals/{goalId}: Update goal by ID
+DELETE /users/{userId}/goals/{goalId}: Delete goal by ID
+POST /users/{userId}/goals/{goalId}/tomatoes: Start a tomato clock for a goal
+DELETE /users/{userId}/goals/{goalId}/tomatoes/{tomatoId}: Cancel a tomato clock for a goal
+GET /users/{userId}/goals/{goalId}/progress: View goal progress by goal ID
+
+5. User Notifications Resource:
+GET /users/{userId}/notifications: Retrieve all notifications of a user
+POST /users/{userId}/notifications: Create a new notification
+GET /users/{userId}/notifications/{notificationId}: Retrieve a notification by ID 
+PUT /users/{userId}/notifications/{notificationId}: Update notification by ID
+DELETE /users/{userId}/notifications/{notificationId}:  Delete a notification by ID
+
+6. Groups Resource:
+POST /groups: Create a new group
+GET /groups/{GroupId}: Retrieve group by ID
+PUT /groups/{GroupId}: Update group by ID
+DELETE /groups/{GroupId}: Delete group by ID
+PUT /groups/{GroupId}/members/{UserId}: A user join a group
+GET /groups/{GroupId}/members: Retrieve group members by group ID
+DELETE /groups/{GroupId}/members/{UserId}: Delete group member by userID

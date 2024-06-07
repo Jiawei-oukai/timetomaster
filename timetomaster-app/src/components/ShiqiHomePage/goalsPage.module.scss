@@ -1,0 +1,75 @@
+.pageContainer {
+  height: 100%;
+  background-color: #f6f7f2;
+}
+
+.mainContent {
+  display: grid;
+  grid-template-rows: 100px 1fr; 
+  align-items: center;
+  justify-content: center;
+
+  .selectorContainer{
+    width: 1200px;
+    min-width: 1200px;
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .addButton {
+      width: 50px;
+      height: 50px;
+      background-color: rgb(255, 255, 255);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .innerCircle {
+      width: 36px;
+      height: 36px;
+      background-color: #a7b798;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .plusSign {
+      font-size: 30px;
+      color: white;
+      font-weight: bold;
+
+      line-height: 35px;
+      text-align: center;
+      width: 100%; 
+      position: relative; 
+      top: -2px; 
+      left: 0px; 
+    
+    }
+  }
+
+  .goalList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+    max-width: 1130px;
+    margin: 0 auto;
+  }
+}
+
+.footContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70px;
+  margin: 20px;
+  padding: 10px;
+}

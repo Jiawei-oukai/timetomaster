@@ -1,0 +1,901 @@
+openapi: "3.0.0"
+info:
+  title: TimeToMastery App API
+  version: "1.0.0"
+servers:
+  - url: https://localhost8080
+paths:
+  /users:
+    post:
+      summary: Create a new user account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                accountType:
+                  type: string
+                vipEndDate:
+                  type: string
+                  format: date
+              required:
+                - username
+                - email
+                - accountType
+                - vipEndDate
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized. No valid API key provided.
+        '403':
+          description: Forbidden. The API key doesn't have permissions.
+        '404':
+          description: Not Found. The requested resource could not be found.
+        '500':
+          description: Internal Server Error. Something went wrong on the server.
+  
+  /users/{userId}:
+    get:
+      summary: Retrieve user information by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized. No valid API key provided.
+        '403':
+          description: Forbidden. The API key doesn't have permissions.
+        '404':
+          description: User not found
+        '500':
+          description: Internal Server Error. Something went wrong on the server.
+    put:
+      summary: Update user account information by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User account updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request. The userId or the body of the request was unacceptable.
+        '401':
+          description: Unauthorized. No valid API key provided.
+        '403':
+          description: Forbidden. The API key doesn't have permissions.
+        '404':
+          description: Not Found. The user could not be found.
+        '500':
+          description: Internal Server Error. Something went wrong on the server.
+    
+    delete:
+      summary: Delete user account by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User account deleted successfully
+        '400':
+          description: Bad Request. The userId or the body of the request was unacceptable.
+        '401':
+          description: Unauthorized. No valid API key provided.
+        '403':
+          description: Forbidden. The API key doesn't have permissions.
+        '404':
+          description: Not Found. The user could not be found.
+        '500':
+          description: Internal Server Error. Something went wrong on the server.
+    
+  /login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginInput'
+      responses:
+        '200':
+          description: User logged in successfully
+        '400':
+          description: Bad Request. Invalid login credentials were provided.
+        '401':
+          description: Unauthorized. No valid API key provided.
+        '403':
+          description: Forbidden. The API key doesn't have permissions.
+        '500':
+          description: Internal Server Error. Something went wrong on the server.
+
+  /logout:
+    post:
+      summary: User logout
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutInput'
+      responses:
+        '200':
+          description: User logged out successfully
+        '400':
+          description: Bad Request. Invalid login credentials were provided.
+        '401':
+          description: Unauthorized. No valid API key provided.
+        '500':
+          description: Internal Server Error. Something went wrong on the server.
+
+  /users/{userId}/achievements:
+    get:
+      summary: Retrieve all the achievements of the user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Achievements retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Achievement'
+        '400':
+          description: Bad Request. Invalid login credentials were provided.
+        '401':
+          description: Unauthorized. No valid API key provided.
+        '500':
+          description: Internal Server Error. Something went wrong on the server.
+    post:
+      summary: Create an achievement for a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+      responses:
+        '201':
+          description: Achievement created successfully
+        '400':
+          description: Bad request
+        '404':
+          description: User not found
+  
+  /users/{userId}/achievements/{achievementId}:
+    get:
+      summary: Retrieve an achievementby achievementId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: achievementId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Achievement retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Achievement'
+    put:
+      summary: Update an achievement by achievementId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: achievementId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Achievement'
+      responses:
+        '200':
+          description: Achievement updated successfully
+        '400':
+          description: Bad request
+        '404':
+          description: Achievement not found
+    delete:
+      summary: Delete an achievement by achievementId
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: achievementId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Achievement deleted successfully
+        '404':
+          description: Achievement not found
+
+  /users/{userId}/achievements/{achievementId}/share:
+    post:
+      summary: Share achievements on social media
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: achievementId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Achievements shared successfully
+  
+  /users/{userId}/goals:
+    post:
+      summary: Create a new goal for a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goal'
+      responses:
+        '201':
+          description: Goal created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+        '400':
+          description: Bad request
+        '404':
+          description: User not found
+
+  /users/{userId}/goals/{goalId}:
+    get:
+      summary: Retrieve a goal by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: goalId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Goal retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+        '404':
+          description: Goal not found
+
+    put:
+      summary: Update goal by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: goalId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Goal'
+      responses:
+        '200':
+          description: Goal updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+        '400':
+          description: Bad request
+        '404':
+          description: Goal not found
+
+    delete:
+      summary: Delete goal by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: goalId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Goal deleted successfully
+        '404':
+          description: Goal not found
+
+  /users/{userId}/goals/{goalId}/tomatoes:
+    post:
+      summary: Start a tomato clock for a goal
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: goalId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Tomato clock started successfully
+        '404':
+          description: Goal not found
+
+  /users/{userId}/goals/{goalId}/tomatoes/{tomatoId}:
+    delete:
+      summary: Cancel a tomato clock for a goal
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: goalId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tomatoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Tomato clock canceled successfully
+        '404':
+          description: Goal or tomato clock not found
+
+  /users/{userId}/goals/{goalId}/progress:
+    get:
+      summary: View goal progress by goal ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: goalId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Goal progress retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoalProgress'
+        '404':
+          description: Goal not found
+  
+  /users/{userId}/notifications:
+    get:
+      summary: Retrieve all notifications of a user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notifications retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+        '404':
+          description: User not found
+
+    post:
+      summary: Create a new notification
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          description: Notification created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400':
+          description: Bad request
+        '404':
+          description: User not found
+
+  /users/{userId}/notifications/{notificationId}:
+    get:
+      summary: Retrieve a notification by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Notification retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '404':
+          description: Notification not found
+
+    put:
+      summary: Update notification by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses:
+        '200':
+          description: Notification updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notification'
+        '400':
+          description: Bad request
+        '404':
+          description: Notification not found
+
+    delete:
+      summary: Delete a notification by ID
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Notification deleted successfully
+        '404':
+          description: Notification not found
+
+
+
+  /groups:
+    post:
+      summary: Create a new group
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupInput'
+      responses:
+        '200':
+          description: Group created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+  /groups/{groupId}:
+    get:
+      summary: Retrieve group by ID
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Group retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+    put:
+      summary: Update group by ID
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupInput'
+      responses:
+        '200':
+          description: Group updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Group'
+    delete:
+      summary: Delete group by ID
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Group deleted successfully
+
+  /groups/{groupId}/members:
+    get:
+      summary: Retrieve group members by ID
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Group members retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /groups/{groupId}/members/{userId}:
+    delete:
+      summary: Delete group member by userID
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Group member deleted successfully
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        accountType:
+          type: string
+        vipEndDate:
+          type: string
+          format: date
+        createdAt:
+          type: string
+          format: date
+        updatedAt:
+          type: string
+          format: date
+        goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/Goal'
+        achievements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Achievement'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+        badge:
+          type: array
+          items:
+            $ref: '#/components/schemas/Badge'
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+    LoginInput:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    LogoutInput:
+      type: object
+      properties:
+        sessionId:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    Achievement:
+      type: object
+      properties:
+        id:
+          type: string
+        user:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        getDate:
+          type: string
+          format: date
+    GoalInput:
+      type: object
+      properties:
+        userId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        totalHours:
+          type: integer
+        investedHours:
+          type: integer
+        progress:
+          type: number
+        status:
+          type: string
+        completionTime:
+          type: string
+          format: date-time
+        expectedCompletionTime:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Goal:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        totalHours:
+          type: integer
+        investedHours:
+          type: integer
+        progress:
+          type: number
+        status:
+          type: string
+        completionTime:
+          type: string
+          format: date-time
+        expectedCompletionTime:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    GoalProgress:
+      type: object
+      properties:
+        investedHours:
+          type: integer
+        progress:
+          type: number
+    Notification:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        frequency:
+          type: string
+        content:
+          type: string
+        userId:
+          type: string
+    NotificationInput:
+      type: object
+      properties:
+        type:
+          type: string
+        frequency:
+          type: string
+        content:
+          type: string
+        userId:
+          type: string
+    GroupInput:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+    Group:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        keywords:
+          type: array
+          items:
+            type: string
+        users:
+          type: array
+          items:
+            type: string
+        isFull:
+          type: boolean
+    Badge:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        criteria:
+          type: string
+        imageUrl:
+          type: string
+

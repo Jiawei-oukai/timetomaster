@@ -1,0 +1,8 @@
+{
+    "sessionId": "unique_session_id",
+    "userId": "user_id",
+    "startTime": "start_time",
+    "expirationTime": "expiration_time",
+    "lastActivityTime": "last_activity_time"
+}
+  

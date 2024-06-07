@@ -1,0 +1,30 @@
+{
+    "id": "b40hie920adv904dsa9s0",
+    "username": "username",
+    "email": "user1@example.com",
+    "accountType": "pro",
+    "vipEndDate": "2023-01-01",
+    "createdAt": "2023-01-01",
+    "updatedAt": "2023-01-20",
+    "goals": [
+        "/goals/1",
+        "/goals/2"
+    ],
+    "achievements": [
+        "/achievements/1",
+        "/achievements/2"
+    ],
+    "groups":[
+        "/groups/1",
+        "/groups/2"
+    ],
+    "badge":[
+        "/badge/1",
+        "/badge/2"
+    ],
+    "notifications": [
+        "/notifications/1",
+        "/notifications/2"
+    ]
+  }
+  

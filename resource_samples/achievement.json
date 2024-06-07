@@ -1,0 +1,10 @@
+{
+    "id": "1",
+    "userID": "b40hie920adv904dsa9s0",
+    "name": "Read a book",
+    "description": "Successfully read 'War and Peace'",
+    "totalHours": 100,
+    "createdAt": "2023-01-01T00:00:00Z",
+    "completionDate": "2023-01-01"
+}
+  

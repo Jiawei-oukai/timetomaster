@@ -1,0 +1,171 @@
+.container {
+    	font: 95% Arial, Helvetica, sans-serif;
+	max-width: 600px;
+	margin: 10px auto;
+	padding: 16px;
+	background: #F7F7F7;
+    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.2);
+}
+.container h1 {
+	background: #a7b798;
+	padding: 20px 0;
+	font-size: 140%;
+	font-weight: 300;
+	text-align: center;
+	color: #fff;
+	margin: -16px -16px 16px -16px;
+
+}
+
+.container input[type="text"],
+.container input[type="password"] {
+    	-webkit-transition: all 0.30s ease-in-out;
+	-moz-transition: all 0.30s ease-in-out;
+	-ms-transition: all 0.30s ease-in-out;
+	-o-transition: all 0.30s ease-in-out;
+	outline: none;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	background: #fff;
+	margin-bottom: 4%;
+	border: 1px solid #272222;
+	padding: 3%;
+	color: #555;
+	font: 95% Arial, Helvetica, sans-serif;
+}
+
+.container input[type="submit"] {
+    box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	padding: 3%;
+	background: #a7b798;
+	border-bottom: 2px solid #a7b798;
+	border-top-style: none;
+	border-right-style: none;
+	border-left-style: none;	
+	color: #fff;
+}
+
+.form_group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+
+}
+
+.label {
+  font-weight: bold;
+  color: rgb(39, 38, 38);
+}
+
+.btn_primary {
+  background-color: #a7b798;
+      box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 100%;
+	padding: 3%;
+	background: #a7b798;
+	border-bottom: 2px solid #a7b798;
+	border-top-style: none;
+	border-right-style: none;
+	border-left-style: none;
+	    border-radius: 10px;
+}
+
+.Identifier {
+    	font: 95% Arial, Helvetica, sans-serif;
+	max-width: 600px;
+	margin: 10px auto;
+	padding: 16px;
+	background: #F7F7F7
+}
+
+.IdentifierText {
+  text-align: center;
+  flex: 0.2 0 auto;
+  margin: 0;
+  color: black;
+  padding: 10px;
+}
+
+#signupRedirection{
+	color: green;
+	
+}
+
+#signupRedirection:hover {
+  background-color: #7a7a7a;
+  border-radius: 3px;
+}
+
+.error_message {
+	color: black;
+}
+
+
+.btn_secondary {
+  display: inline-block;
+  background-color: #a7b798;
+  width: auto;
+  height: auto;
+  color: white;
+  text-align: center;
+  border: 4px double #cccccc; 
+  border-radius: 10px;
+  font-size: 20px;
+      border-radius: 10px;
+    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.2);
+	margin-right: 20px;
+}
+.btn_danger {
+  display: inline-block;
+  background-color: red;
+  width: auto;
+  height: auto;
+  color: white;
+  text-align: center;
+  border: 4px double #cccccc; 
+  border-radius: 10px;
+  font-size: 20px;
+      border-radius: 15px;
+    box-shadow: 0 6px 4px rgba(0, 0, 0, 0.2);
+
+
+}
+
+.confirmDelete{
+font: 95% Arial, Helvetica, sans-serif;
+	position: fixed;
+  top: 0;
+  left: 0;
+  width: 400px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  box-shadow: 0 6px 4px rgba(0, 0, 0, 0.2);
+  left: 40%;
+  top: 40%;
+
+}
+
+.confirmDeleteHP {
+color: black;
+font-size: large;
+padding-bottom: 10px;
+}
+.confirmdelete-content {
+	padding-bottom: 20px;
+}

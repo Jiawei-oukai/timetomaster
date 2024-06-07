@@ -1,0 +1,14 @@
+{
+    "id": "1",
+    "name": "Book club",
+    "description": "A group for people who love reading books",
+    "keywords": [
+      "books",
+      "reading"
+    ],
+    "users": [
+      1,2
+    ],
+    "isFull": false
+}
+  
