@@ -1,8 +1,8 @@
-import  {getAll, create, search, update, remove} from './goal-rest-service';
+import  {getAllByEmail, create, search, update, remove} from './goal-rest-service';
 import PartialGoal from "../models/goal-update";
 
-export const getAllGoal = async () => {
-  const goals = await getAll();
+export const getAllGoalByEmail = async (email: string) => {
+  const goals = await getAllByEmail(email);
   return goals;
 }
 

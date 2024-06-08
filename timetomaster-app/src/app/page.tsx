@@ -25,7 +25,7 @@ export default function Home() {
         <Route element={<PrivateRoute/>} >
           <Route path="/home" element={<GoalPage />} />
           <Route path="/statistics" element={<StatisticsPage />} />
-          <Route path="/goals" element={<GoalsPage />} />          
+          <Route path="/goals" element={<GoalsPage />} />         
         </Route>
         <Route path="/register/identifier" element={<SignupIdentifier />} />
         <Route path="/register" element={<CreaterCustomerForm />} />

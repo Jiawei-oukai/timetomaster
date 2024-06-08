@@ -1,7 +1,7 @@
 import styles from './goalsPage.module.scss';
-import React, { useState, useEffect } from 'react';
-import { getAllGoal, searchGoal } from '../../services/goal-service';
-
+import React, { useState, useEffect, useCallback } from 'react';
+import { getAllGoalByEmail, searchGoal } from '../../services/goal-service';
+import { useAuth } from '@/app/AuthContext';
 import Header from './components/header/header';
 import TypeSelector from './components/typeSelector/typeSelector';
 import GoalCard from './components/goalCard/goalCard';
@@ -12,6 +12,7 @@ import Goal from '@/models/goal';
 import Record from '@/models/record';
 
 export default function GoalsPage() {
+  const { user } = useAuth();
   const [goals, setGoals] = useState<Goal[]>([]);
 
   const [createModalOpen, setCreateModalOpen] = useState(false);
@@ -53,15 +54,18 @@ export default function GoalsPage() {
       onEdit={() => handleEdit(goal)}
     ></GoalCard>);
 
-  const fetchAllGoals = () => {
-    getAllGoal().then((items) => {
-      setGoals(items);
-    });
-  };
+  const fetchAllGoals = useCallback(() => {
+    if (user) {
+      getAllGoalByEmail(user.email).then((items) => {
+        setGoals(items);
+      });
+    }
+  }, [user]);
+
 
   useEffect(() => {
     fetchAllGoals();
-  }, [editModalOpen]);
+  }, [fetchAllGoals, editModalOpen]);
 
   // search goal based on type progess/completed
   const [activeButton, setActiveButton] = useState('All');

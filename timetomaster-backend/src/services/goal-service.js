@@ -11,6 +11,12 @@ export const getByUserId = async (userId) => {
     return Goal.find({ userId }).exec();
 }
 
+// Fetch all goals for a specific user by userEmail
+export const getByUserEmail = async (userEmail) => {
+    return Goal.find({ userEmail }).exec();
+}
+
+
 
 // Fetch a goal by id
 export const getById = async (id) => {
@@ -39,9 +45,20 @@ export const remove = async (id) => {
 
 
 // Fetch goals by due date for a specific user
-export const searchByProgress = async (uid, start, end) => {
+// export const searchByProgress = async (uid, start, end) => {
+//     return Goal.find({
+//         userId: uid,
+//         progress: {
+//             $gte: start, 
+//             $lte: end    
+//         }
+//     });
+// }
+
+// Fetch goals by due date for a specific user
+export const searchByProgress = async (email, start, end) => {
     return Goal.find({
-        userId: uid,
+        userEmail: email,
         progress: {
             $gte: start, 
             $lte: end    

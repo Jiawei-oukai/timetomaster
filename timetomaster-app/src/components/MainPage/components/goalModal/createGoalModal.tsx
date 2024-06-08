@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './createGoalModal.module.scss';
 import Goal from '@/models/goal';
 import GoalCreate from '@/models/goal-create';
-
+import { useAuth } from '@/app/AuthContext';
 import goalIcon1 from './goalIcons/1.png';
 import goalIcon2 from './goalIcons/2.png';
 import goalIcon3 from './goalIcons/3.png';
@@ -29,6 +29,7 @@ const images = [goalIcon1, goalIcon2, goalIcon3, goalIcon4, goalIcon5, goalIcon6
   , goalIcon7, goalIcon8, goalIcon9, goalIcon10, goalIcon11, goalIcon12]
 
 export default function CreateGoalModal(props: Props) {
+  const { user } = useAuth();
   const [selectedImageIndex, setSelectedImageIndex] = React.useState<number | null>(null); // Added state for selected image index
   const [title, setTitle] = React.useState("");
   const [totalHours, setTotalHours] = React.useState("");
@@ -40,12 +41,12 @@ export default function CreateGoalModal(props: Props) {
   const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
 
   const handleSubmit = async () => {
-    if (title && totalHours && expectedCompletionDate && selectedImageIndex) {
+    if (title && totalHours && expectedCompletionDate && selectedImageIndex && user) {
       const newGoal: GoalCreate = {
         title,
         totalHours,
         expectedCompletionDate,
-        userId: '123456',
+        userEmail: user.email,
         logo: selectedImageIndex,
       };
       try {

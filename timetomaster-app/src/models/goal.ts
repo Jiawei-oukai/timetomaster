@@ -1,6 +1,6 @@
 export default interface Goal {
     _id : string;
-    userId: string;
+    userEmail: string;
     title:  string;
     totalHours: number;
     investedHours: number;

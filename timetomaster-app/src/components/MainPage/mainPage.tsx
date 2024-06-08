@@ -1,8 +1,8 @@
 import styles from './mainPage.module.scss';
-import React, { useState, useEffect } from 'react';
-import { getAllGoal } from '../../services/goal-service';
+import React, { useState, useEffect, useCallback } from 'react';
+import { getAllGoalByEmail } from '../../services/goal-service';
 import { getDailyByGid, getWeeklyByGid, getMonthlyByGid } from '../../services/record-service';
-
+import { useAuth } from '@/app/AuthContext';
 import Header from './components/header/header';
 import GoalCardMain from './components/goalCard/goalCard2';
 import Calendar from './components/calendar/calendar';
@@ -15,7 +15,7 @@ import DailyRecord from '@/models/record-daily';
 
 export default function MainPage() {
   const [selectedTab, setSelectedTab] = useState('Today');
-
+  const { user } = useAuth();
   const [goals, setGoals] = useState<Goal[]>([]);
   const [records, setRecords] = useState<Record[]>([]);
   const [daylyRecords, setDaylyRecords] = useState<DailyRecord[]>([]);
@@ -34,14 +34,16 @@ export default function MainPage() {
       onEdit={() => handleEdit(goal)}
     ></GoalCardMain>);
 
-  const fetchAllGoals = () => {
-    getAllGoal().then((items) => {
-      setGoals(items);
-      if (items.length > 0 && currentGoal === undefined) { 
-        setCurrentGoal(items[0]);
-      }
-    });
-  };
+  const fetchAllGoals = useCallback(() => {
+    if (user) {
+      getAllGoalByEmail(user.email).then((items) => {
+        setGoals(items);
+        if (items.length > 0 && currentGoal === undefined) {
+          setCurrentGoal(items[0]);
+        }
+      });
+    }
+  }, [user, currentGoal]);
 
   // Display modal to edit goal
   const handleEdit = (goal: Goal) => {
@@ -64,31 +66,25 @@ export default function MainPage() {
   };
 
   // Fetch All records
-  const fetchAllRecordsByGid = () => {
-    if (currentGoal === undefined) {
-      return;
-    }else{
-      getDailyByGid(currentGoal._id).then((items) => {
-        setDaylyRecords(items);
-      });
-      getWeeklyByGid(currentGoal._id).then((items) => {
-        setWeeklyRecords(items);
-      });
-      getMonthlyByGid(currentGoal._id).then((items) => {
-        setMonthlyRecords(items);
-      });
-      console.log("Daily Records:", daylyRecords);
-      console.log("Weekly Records:", weeklyRecords);
-      console.log("Monthly Records:", monthlyRecords);
-    }
-
-  };
+  const fetchAllRecordsByGid = useCallback(() => {
+    if (!currentGoal) return;
+  
+    getDailyByGid(currentGoal._id).then((items) => {
+      setDaylyRecords(items);
+    });
+    getWeeklyByGid(currentGoal._id).then((items) => {
+      setWeeklyRecords(items);
+    });
+    getMonthlyByGid(currentGoal._id).then((items) => {
+      setMonthlyRecords(items);
+    });
+  }, [currentGoal]);
 
   useEffect(() => {
     fetchAllGoals();
     fetchAllRecordsByGid();
-  }, [currentGoal, goalDetailOpen]);
-
+  }, [fetchAllGoals, fetchAllRecordsByGid, goalDetailOpen]);
+  
 
   return (
     <div className={styles.pageContainer}>

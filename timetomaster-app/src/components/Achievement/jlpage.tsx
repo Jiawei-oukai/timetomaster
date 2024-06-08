@@ -4,10 +4,10 @@ import styles from './jlpage.module.scss';
 
 import React, { useState, useEffect } from 'react';
 import { createAchievement, getAllAchievement, searchAchievement, updateAchievement, deleteAchievement } from '../../services/achievement-service';
-import { getAllGoal, createGoal, updateGoal, deleteGoal } from '../../services/goal-service';
+import { getAllGoalByEmail, createGoal, updateGoal, deleteGoal } from '../../services/goal-service';
 
-import AchievementCard from './components/achiev-card/achievement-card';
-
+// import AchievementCard from './components/achiev-card/achievement-card';
+// import { useAuth } from '@/app/AuthContext';
 import Header from '../MainPage/components/header/header';
 import Achievement from '@/models/achievement';
 import Goal from '@/models/goal';
@@ -52,9 +52,12 @@ export default function Home() {
   const [goals, setGoals] = useState<Goal[]>([]);
 
   const fetchAndSetGoals = async () => {
+    // const {user} = useAuth();
     try {
-      const goals = await getAllGoal();
-      setGoals(goals);
+      if (user) {
+        const goals = await getAllGoalByEmail(user.email);
+        setGoals(goals);
+      }
     } catch (error) {
       console.error('Error fetching goals:', error);
       

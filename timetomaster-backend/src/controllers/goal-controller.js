@@ -25,6 +25,17 @@ export const getByUserId = async (request, response) => {
 }
 
 
+// Fetch all goals by user ID
+export const getByUserEmail = async (request, response) => {
+    try {
+        const userEmail = request.params.userEmail;
+        const goals = await goalService.getByUserEmail(userEmail);
+        setResponse1(200, goals, response);
+    } catch (error) {
+        setErrorResponse(500, error, response);
+    }
+}
+
 // Create a new goal
 export const post = async (request, response) => {
     try {
@@ -91,8 +102,8 @@ export const getById = async (request, response) => {
 // Fetch a user's goals by date range
 export const searchByProgress = async (request, response) => {
     try {
-        const { uid, start, end } = request.query;
-        const goals = await goalService.searchByProgress(uid, start, end);
+        const { email, start, end } = request.query;
+        const goals = await goalService.searchByProgress(email, start, end);
         setResponse1(200, goals, response);
     } catch (error) {
         setErrorResponse(500, error, response);

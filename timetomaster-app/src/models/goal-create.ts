@@ -1,5 +1,5 @@
 export default interface GoalCreate {
-    userId: string;
+    userEmail: string;
     title:  string;
     totalHours: string;
     expectedCompletionDate: string;

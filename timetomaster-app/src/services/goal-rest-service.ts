@@ -3,8 +3,8 @@ import PartialGoal from "../models/goal-update";
 
 const baseURI = 'http://localhost:9001';
 
-export const getAll = async (): Promise<Goal[]> => {
-    const url = '/goals';
+export const getAllByEmail = async (email: string): Promise<Goal[]> => {
+    const url = `/goals/userEmail/${email}`;
     const response = await fetch( baseURI + url, {
         method: 'GET',
         headers: {
