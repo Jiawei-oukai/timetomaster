@@ -21,26 +21,25 @@ export const deleteGoal = async (id: string) => {
 }
 
 
-export const searchGoal = async <Goal> (buttonLabel: string): Promise<Goal[]> => {
+export const searchGoal = async <Goal> (buttonLabel: string, email: string): Promise<Goal[]> => {
   let url = '';
-  let uid = '123456'
   const query: any = {};
 
   if( buttonLabel === 'All') {
-      url = '/goals/user/' + uid;
+      url = '/goals/userEmail/' + email;
   } else if(buttonLabel === 'Half Done') {
       url = '/goals/search/progress';
-      query.uid = uid;
+      query.email = email;
       query.start = 0;
       query.end = 0.5;
   } else if(buttonLabel === 'Nearly Done') {
       url = '/goals/search/progress';
-      query.uid = uid;
+      query.email = email;
       query.start = 0.5;
       query.end = 0.99;
   } else if(buttonLabel === 'Completed') {
     url = '/goals/search/progress';
-    query.uid = uid;
+    query.email = email;
     query.start = 0.99;
     query.end = 1.001;
 }

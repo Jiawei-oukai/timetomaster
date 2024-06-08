@@ -46,7 +46,7 @@ export default function GoalsPage() {
     setEditModalOpen(false);
   }, [currentGoal, goals]);
 
-  // Fetch All goals
+  
   const goalCards = goals.map((goal) =>
     <GoalCard
       key={goal._id}
@@ -54,6 +54,7 @@ export default function GoalsPage() {
       onEdit={() => handleEdit(goal)}
     ></GoalCard>);
 
+  // Fetch All goals
   const fetchAllGoals = useCallback(() => {
     if (user) {
       getAllGoalByEmail(user.email).then((items) => {
@@ -71,9 +72,12 @@ export default function GoalsPage() {
   const [activeButton, setActiveButton] = useState('All');
 
   const handleButtonClick = async (buttonLabel: string) => {
-    setActiveButton(buttonLabel);
-    const items = await searchGoal<Goal>(buttonLabel);
-    setGoals(items);
+    if (user) {
+      setActiveButton(buttonLabel);
+      const items = await searchGoal<Goal>(buttonLabel, user.email);
+      setGoals(items);
+    }
+
   };
 
   return (
