@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import styles from './signUpForm.module.scss';
 import { signUp } from '@/services/signUp-service';
 import { useNavigate } from 'react-router-dom';
 
 interface SignUpFormProps {
   onClose: () => void;
+  setLoginEmail: (email:any) => void;
 }
 
-const SignUpForm: React.FC<SignUpFormProps> = ({ onClose }) => {
+const SignUpForm: React.FC<SignUpFormProps> = ({ onClose,setLoginEmail }) => {
   const [userName, setUserName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -16,7 +18,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onClose }) => {
   const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
   const [isEmailTouched, setIsEmailTouched] = useState<boolean>(false);
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
-  const [signUpSuccess, setsignUpSuccess] = useState<string>('');
   const [signUpFailed, setsignUpFailed] = useState<string>('');
   const navigate = useNavigate();
 
@@ -47,9 +48,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onClose }) => {
       try {
         const user = await signUp({ userName, email, password });
         if (user) {
-          setsignUpSuccess('Sign up successful');
+          toast.success('Sign up successful');
           console.log('Sign up successful', user);
-          navigate('/');
+          setLoginEmail(email);
+          onClose(); 
         } else {
           setsignUpFailed('Email already exists');
         }
@@ -59,7 +61,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ onClose }) => {
         }
       }
       // Close form after sign-up
-      // onClose(); 
+      
     }
   };
 

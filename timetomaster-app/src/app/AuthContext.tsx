@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { login } from '@/services/login-service';
+import { UserLoginInfo } from '@/models/users';
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  login: () => void;
-  logout: () => void;
+  Authlogin: (userInfo: UserLoginInfo) => Promise<any>;
+  Authlogout: () => void;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -11,16 +13,20 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  const login = () => {
-    setIsAuthenticated(true);
+  const authlogin = async (userInfo: UserLoginInfo) => {
+    const validatedUser = await login(userInfo);
+    if (validatedUser) {
+      setIsAuthenticated(true);
+    }
+    return validatedUser;
   };
 
-  const logout = () => {
+  const authlogout = () => {
     setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, Authlogin: authlogin, Authlogout: authlogout }}>
       {children}
     </AuthContext.Provider>
   );

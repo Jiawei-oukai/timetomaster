@@ -1,5 +1,7 @@
 "use client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./AuthContext";
@@ -15,6 +17,7 @@ export default function Home() {
   return (
     <AuthProvider>
     <BrowserRouter>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/login/identifier" element={<LoginIdentifier />} />
