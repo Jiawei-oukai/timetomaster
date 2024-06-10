@@ -20,9 +20,9 @@ export const create = async (record: RecordCreate) => {
     return newRecord;
 }
 
-export const getAll = async (): Promise<Record[]> => {
-    console.log('fetching all records');
-    const url = '/records';
+// not in used
+export const getAll = async (email: string): Promise<Record[]> => {
+    const url = `/records/${email}`;
     const response = await fetch( baseURI + url, {
         method: 'GET',
         headers: {
@@ -46,7 +46,7 @@ export const search = async <Record> (url: string, query: any = {} ): Promise<Re
     return records;
 }
 
-export const searchByUid = async <DailyRecord> (url: string, query: any = {} ): Promise<DailyRecord[]> => {
+export const searchByEmail = async <DailyRecord> (url: string, query: any = {} ): Promise<DailyRecord[]> => {
     const params: URLSearchParams = new URLSearchParams(query);
     const response = await fetch( baseURI + url + '?' + params, {
         method: 'GET',

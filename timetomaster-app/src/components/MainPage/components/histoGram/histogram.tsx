@@ -1,6 +1,5 @@
 import styles from './histogram.module.scss';
 import React from 'react';
-
 import { ComposedChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, LabelList, ReferenceLine, Line } from 'recharts';
 import { useState } from 'react';
 import DailyRecord from '@/models/record-daily';
@@ -11,16 +10,16 @@ interface HistogramProps {
     monthlyRecords: DailyRecord[];
 }
 
-export default function Histogram( props: HistogramProps) {
+export default function Histogram(props: HistogramProps) {
     const [selectedPeriod, setSelectedPeriod] = useState('day');
 
     const handlePeriodChange = (newPeriod: string) => {
         setSelectedPeriod(newPeriod);
-        console.log("Daily Records:", props.weeklyRecords);
+        console.log("Daily Records:", props.dailyRecords);
     };
 
     const getDataForPeriod = () => {
-        let records :DailyRecord[];
+        let records: DailyRecord[];
         switch (selectedPeriod) {
             case 'day':
                 records = props.dailyRecords;
@@ -35,15 +34,17 @@ export default function Histogram( props: HistogramProps) {
                 records = [];
                 break;
         }
-    
+
+        records.forEach(record => {
+            console.log(`Record Date: ${record.recordsDate}`);
+        });
+
         return records.sort((a, b) => {
             const dateA = new Date(a.recordsDate).getTime();
             const dateB = new Date(b.recordsDate).getTime();
             return dateB - dateA;
         });
     };
-    
-    
 
     return (
         <div className={styles.chartContainer}>
@@ -63,9 +64,7 @@ export default function Histogram( props: HistogramProps) {
 
                     <div className={styles.verticalLine} style={{ left: '33.33%' }}></div>
                     <div className={styles.verticalLine} style={{ left: '66.66%' }}></div>
-
                 </div>
-
             </div>
             <div className={styles.chartContent}>
                 <div className={styles.histogram}>
@@ -80,10 +79,8 @@ export default function Histogram( props: HistogramProps) {
                         <XAxis dataKey="recordsDate" stroke="#494949" axisLine={false} tickLine={false}
                             tick={{ fontSize: 16 }}
                             tickFormatter={(value) => {
-                                const date = new Date(value);
-                                const month = date.getMonth() + 1;
-                                const day = date.getDate();
-                                return day ? `${month.toString()}-${day.toString()}` : `${month.toString()}`;
+                                // 直接返回日期字符串，确保不受时区影响
+                                return value;
                             }}
                         >
                             <ReferenceLine y={0} stroke="#494949" />
@@ -106,92 +103,5 @@ export default function Histogram( props: HistogramProps) {
                 </div>
             </div>
         </div>
-
     );
-};
-
-
-// import React from 'react';
-// import styles from './histogram.module.scss';
-// import { ComposedChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine, Line, LabelList } from 'recharts';
-// import { useState } from 'react';
-
-// interface DailyRecords {
-//     recordsDate: string;
-//     totalHours: number;
-// }
-// interface WeeklyRecords {
-//     dateOfSunday: string;
-//     totalTime: number;
-// }
-// interface MonthlyRecords {
-//     month: string;
-//     totalTime: number;
-// }
-
-// interface HistogramProps {
-//     dailyRecords: DailyRecords[];
-//     weeklyRecords: WeeklyRecords[];
-//     monthlyRecords: MonthlyRecords[];
-// }
-
-// export default function Histogram(props: HistogramProps) {
-//     const { dailyRecords, weeklyRecords, monthlyRecords } = props;
-
-//     const [selectedPeriod, setSelectedPeriod] = useState('day'); // 初始统计周期为日
-
-//     const handlePeriodChange = (newPeriod: string) => {
-//         setSelectedPeriod(newPeriod);
-//     };
-    
-//     const getDataForPeriod = () => {
-//         let records: DailyRecords[] | WeeklyRecords[] | MonthlyRecords[] = [];
-//         let dataKey: keyof DailyRecords | keyof WeeklyRecords | keyof MonthlyRecords = "totalHours";
-    
-//         switch (selectedPeriod) {
-//             case 'day':
-//                 records = dailyRecords;
-//                 break;
-//             case 'week':
-//                 records = weeklyRecords;
-//                 dataKey = "totalTime";
-//                 break;
-//             case 'month':
-//                 records = monthlyRecords;
-//                 dataKey = "totalTime";
-//                 break;
-//         }
-    
-//         return { records, dataKey };
-//     };
-    
-
-//     const { records, dataKey } = getDataForPeriod();
-
-//     return (
-//         <div className={styles.chartContainer}>
-//             {/* ... Header Code ... */}
-//             <div className={styles.chartContent}>
-//                 <div className={styles.histogram}>
-//                     <ComposedChart
-//                         className={styles.customChart}
-//                         width={800}
-//                         height={400}
-//                         data={records}
-//                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-//                     >
-//                         <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-//                         <XAxis dataKey="recordsDate" stroke="#494949" axisLine={false} tickLine={false} />
-//                         <ReferenceLine y={0} stroke="#494949" />
-//                         <YAxis stroke="#494949" axisLine={false} tickLine={false} />
-//                         <Tooltip contentStyle={{ backgroundColor: '#333', color: '#f3f3f2' }} />
-//                         <Bar dataKey={dataKey} fill="#d1cd8e" barSize={30}>
-//                             <LabelList dataKey={dataKey} position="top" />
-//                         </Bar>
-//                         <Line type="linear" dataKey={dataKey} stroke="#a7b798" strokeWidth={2} dot={true} />
-//                     </ComposedChart>
-//                 </div>
-//             </div>
-//         </div>
-//     );
-// }
+}

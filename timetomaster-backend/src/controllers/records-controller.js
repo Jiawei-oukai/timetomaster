@@ -5,8 +5,9 @@ import { setResponse1, setErrorResponse } from './response-handler.js';
 // Fetch all records
 export const index = async (request, response) => {
     try {
-        const params = { ...request.query };
-        const records = await recordsService.search(params);
+     
+        const email = request.params.email;
+        const records = await recordsService.getByUserEmail(email);
         setResponse1(200, records, response);
     } catch (error) {
         setErrorResponse(500, error, response);
@@ -26,7 +27,7 @@ export const getByUserId = async (request, response) => {
 
 
 // Create a new record
-export const post = async (request, response) => {
+export const CreateNewRecord = async (request, response) => {
     try {
         const newRecord = request.body;
         const record = await recordsService.save(newRecord);
@@ -138,30 +139,30 @@ export const searchAllByUid = async (request, response) => {
     }
 }
 
-export const searchDailyTimeByUId = async (request, response) => {
+export const searchDailyTimeByEmail = async (request, response) => {
     try {
-        const { uid } = request.query;
-        const records = await recordsService.searchDailyTimeByUId(uid);
+        const { email } = request.query;
+        const records = await recordsService.searchDailyTimeByEmail(email);
         setResponse1(200, records, response);
     } catch (error) {
         setErrorResponse(500, error, response);
     }
 }
 
-export const searchWeeklyTimeByUId = async (request, response) => {
+export const searchWeeklyTimeByEmail = async (request, response) => {
     try {
-        const { uid } = request.query;
-        const records = await recordsService.searchWeeklyTimeByUId(uid);
+        const { email } = request.query;
+        const records = await recordsService.searchWeeklyTimeByEmail(email);
         setResponse1(200, records, response);
     } catch (error) {
         setErrorResponse(500, error, response);
     }
 }
 
-export const searchMonthlyTimeByUId = async (request, response) => {
+export const searchMonthlyTimeByEmail = async (request, response) => {
     try {
-        const { uid } = request.query;
-        const monthlyTime = await recordsService.searchMonthlyTimeByUId(uid);
+        const { email } = request.query;
+        const monthlyTime = await recordsService.searchMonthlyTimeByEmail(email);
         setResponse1(200, monthlyTime, response);
     } catch (error) {
         setErrorResponse(500, error, response);
@@ -170,10 +171,14 @@ export const searchMonthlyTimeByUId = async (request, response) => {
 
 export const searchByDate = async (request, response) => {
     try {
-        const { date } = request.query;
-        const goals = await recordsService.searchByDate(date);
-        setResponse1(200, goals, response);
+        const { date, email } = request.query;
+        if (!date || !email) {
+            setErrorResponse(400, "Date and email are required", response);
+            return;
+        }
+        const records = await recordsService.searchByDate(date, email);
+        setResponse1(200, records, response);
     } catch (error) {
         setErrorResponse(500, error, response);
     }
-}
+};

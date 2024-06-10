@@ -1,5 +1,5 @@
 export default interface RecordCreate {
-    userId: string;
+    userEmail: string;
     goalId:  string;
     goalName: string;
     Time: number;

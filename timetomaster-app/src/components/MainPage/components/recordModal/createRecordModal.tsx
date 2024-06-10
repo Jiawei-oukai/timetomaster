@@ -7,6 +7,7 @@ import Record from '@/models/record';
 import RecordCreate from '@/models/record-create';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import { useAuth } from '@/app/AuthContext';
 
 import { createRecord } from '../../../../services/record-service';
 
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export default function CreateRecordModal(props: Props) {
+  const {user} = useAuth();
   const [selectedTime, setSelectedTime] = useState(0);
   const [goalId, setGoalId] = React.useState("");
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -45,9 +47,9 @@ export default function CreateRecordModal(props: Props) {
   }
 
   const handleSubmit = async () => {
-    if (selectedTime && props.goal) {
+    if (selectedTime && props.goal && user) {
       const newRecord: RecordCreate = {
-        userId: '123456',
+        userEmail: user.email,
         goalId: props.goal._id,
         goalName: props.goal.title,
         Time: selectedTime/60,

@@ -3,9 +3,13 @@ import Goal from "../models/goal.js";
 import moment from 'moment';
 
 //Fetch all records
-export const search = async (params) => {
-    const records = Record.find(params).exec();
+export const search = async (email) => {
+    const records = Record.find(email).exec();
     return records;
+}
+
+export const getByUserEmail = async (userEmail) => {
+    return Record.find({ userEmail }).exec();
 }
 
 // Fetch all records for a specific user by user ID
@@ -44,14 +48,11 @@ export const save = async (newRecord) => {
     }
 };
 
-
-// Update an existing records
 export const update = async (id, updatedRecord) => {
     const records = await Record.findByIdAndUpdate(id, updatedRecord, { new: true }).exec();
     return records;
 }
 
-// Delete a records
 export const remove = async (id) => {
     const records = await Record.findByIdAndDelete(id).exec();
     return records;
@@ -160,8 +161,8 @@ export const searchAllByUid = async (uid) => {
     });
 }
 
-export const searchDailyTimeByUId = async (uid) => {
-    const records = await Record.find({ userId: uid });
+export const searchDailyTimeByEmail = async (email) => {
+    const records = await Record.find({ userEmail: email });
 
     const dailyTime = {};
 
@@ -186,7 +187,7 @@ moment.updateLocale('en', {
     },
 });
 
-export const searchWeeklyTimeByUId = async (uid) => {
+export const searchWeeklyTimeByEmail = async (email) => {
     const weeklyTime = Array.from({ length: 8 }, () => ({
         recordsDate: "",
         totalHours: 0,
@@ -200,7 +201,7 @@ export const searchWeeklyTimeByUId = async (uid) => {
         weeklyTime[i].recordsDate = sunday.format('YYYY-MM-DD');
     }
 
-    const records = await Record.find({ userId: uid });
+    const records = await Record.find({ userEmail: email });
     records.forEach((record) => {
         const recordDate = moment(record.recordsDate);
 
@@ -217,8 +218,8 @@ export const searchWeeklyTimeByUId = async (uid) => {
     return weeklyTime.reverse();
 };
 
-export const searchMonthlyTimeByUId = async (uid) => {
-    const records = await Record.find({ userId: uid });
+export const searchMonthlyTimeByEmail = async (email) => {
+    const records = await Record.find({ userEmail: email });
 
     const monthlyTime = Array.from({ length: 6 }, () => ({
         recordsDate: "",
@@ -244,19 +245,19 @@ export const searchMonthlyTimeByUId = async (uid) => {
 };
 
 // Fetch goals by due date
-export const searchByDate = async (date) => {
+export const searchByDate = async (date, email) => {
     const targetDate = new Date(date);
     const startDate = new Date(targetDate);
     startDate.setHours(0, 0, 0, 0);
     const endDate = new Date(targetDate);
     endDate.setHours(23, 59, 59, 999);
-    console.log(startDate +" "+ endDate);
-  
+    console.log(`Start Date: ${startDate}, End Date: ${endDate}`);
+
     return Record.find({
-      recordsDate: {
-        $gte: startDate,
-        $lte: endDate
-      }
-    });
-  };
-  
+        userEmail: email,
+        recordsDate: {
+            $gte: startDate,
+            $lte: endDate
+        }
+    }).exec();
+};

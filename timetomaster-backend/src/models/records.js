@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const recordSchema = new mongoose.Schema(
     {
-    userId: {
+    userEmail: {
         type: String,
         required: true,
     },

@@ -6,8 +6,11 @@ const recordsRouter = express.Router();
 
 recordsRouter
   .route('')
+  .post(recordsController.CreateNewRecord);
+
+recordsRouter
+  .route('/:email')
   .get(recordsController.index)
-  .post(recordsController.post);
 
 recordsRouter
   .route('/:id')
@@ -19,6 +22,7 @@ recordsRouter
   .route('/user/:userId')
   .get(recordsController.getByUserId);
 
+ 
 
 /**
 
@@ -31,11 +35,11 @@ recordsRouter.route('/search/weeklyTime').get(recordsController.searchWeeklyTime
 recordsRouter.route('/search/monthlyTime').get(recordsController.searchMonthlyTimeByGoalId);
 
 recordsRouter.route('/userSearch/all').get(recordsController.searchAllByUid);
-recordsRouter.route('/userSearch/dailyTime').get(recordsController.searchDailyTimeByUId);
-recordsRouter.route('/userSearch/weeklyTime').get(recordsController.searchWeeklyTimeByUId);
-recordsRouter.route('/userSearch/monthlyTime').get(recordsController.searchMonthlyTimeByUId);
+recordsRouter.route('/userSearch/dailyTime').get(recordsController.searchDailyTimeByEmail);
+recordsRouter.route('/userSearch/weeklyTime').get(recordsController.searchWeeklyTimeByEmail);
+recordsRouter.route('/userSearch/monthlyTime').get(recordsController.searchMonthlyTimeByEmail);
 /**
- * URL: /records/search/date?date=YYYY-MM-DD
+ * URL: /records/search/date?email=user@example.com&date=YYYY-MM-DD
  **/
 recordsRouter.route('/search/date').get(recordsController.searchByDate);
 export default recordsRouter;
