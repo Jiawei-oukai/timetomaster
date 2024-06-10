@@ -176,6 +176,7 @@ export const searchByDate = async (request, response) => {
             setErrorResponse(400, "Date and email are required", response);
             return;
         }
+        console.log("date in controller:" + date);
         const records = await recordsService.searchByDate(date, email);
         setResponse1(200, records, response);
     } catch (error) {

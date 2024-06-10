@@ -244,13 +244,11 @@ export const searchMonthlyTimeByEmail = async (email) => {
     return monthlyTime.reverse();
 };
 
-// Fetch goals by due date
+// Fetch records by due date
 export const searchByDate = async (date, email) => {
-    const targetDate = new Date(date);
-    const startDate = new Date(targetDate);
-    startDate.setHours(0, 0, 0, 0);
-    const endDate = new Date(targetDate);
-    endDate.setHours(23, 59, 59, 999);
+    console.log("date in service:", date);
+    const startDate = moment(date).startOf('day').toDate();
+    const endDate = moment(date).endOf('day').toDate();
     console.log(`Start Date: ${startDate}, End Date: ${endDate}`);
 
     return Record.find({

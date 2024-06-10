@@ -50,7 +50,7 @@ export default function Histogram(props: HistogramProps) {
         <div className={styles.chartContainer}>
             <div className={styles.chartHeader}>
                 <div className={styles.chartTitle}>
-                    <h2>Recent Time invested &nbsp;</h2> <p>(h)</p>
+                    <h2>Recent Time Invested &nbsp;</h2> <p>(h)</p>
                 </div>
 
                 <div className={styles.buttonContainer}>

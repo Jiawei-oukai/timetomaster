@@ -23,10 +23,7 @@ if (!config.has("jwtPrivateKey")) {
 */
 
 mongoose.connect(
-  "mongodb://localhost:27017/timetomaster"
-/*
-  "mongodb+srv://timetomaster:timeToMaster123@cluster0.lt3xhc9.mongodb.net/timetomaster"
-*/
+  "mongodb+srv://timetomaster-user:sfmV0DZNvYJdTwoB@jiawei.gvpfifu.mongodb.net/timetomaster"
   );
 
 export default app;

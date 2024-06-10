@@ -14,6 +14,7 @@ const Calendar: React.FC = () => {
   const fetchRecords = useCallback(async (date: Date) => {
     if (user) {
       try {
+        console.log("Selected date:" + date.toISOString().split('T')[0]);
         const items = await getByDate(date.toISOString().split('T')[0], user.email);
         console.log("Calendar Records:", items);
         setRecords(items);

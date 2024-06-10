@@ -42,7 +42,7 @@ export const getByDate = async (date: string, email: string): Promise<Record[]> 
     date: date,
     email: email
   };
-
+  console.log("date passed from frontend:" + date);
   const records = await searchByDate<Record>(url, query);
   return records;
 };
